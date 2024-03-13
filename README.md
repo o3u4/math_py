@@ -1,2 +1,2 @@
 # math_py
-do math in python
+the math in python code
