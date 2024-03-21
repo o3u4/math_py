@@ -35,9 +35,10 @@ def simplify(xb, A_):
     return M.tolist()
 
 
-def operation(Xb_, A_):
+def operation(Xb_, A_, tar_f):
     """
     迭代一次
+    :param tar_f: 目标函数系数
     :param Xb_: 目前基变量下标列表
     :param A_: 变换的矩阵
     :return:
@@ -49,18 +50,19 @@ def operation(Xb_, A_):
     theta_lst: θ值列表
     """
     flag = True
-    Cb = sp.Matrix([max_f[x - 1] for x in Xb_])  # 基变量系数
+    Cb = sp.Matrix([tar_f[x - 1] for x in Xb_])  # 基变量系数
 
     M = sp.Matrix(A_)
+    n__ = len(A_[0])
 
-    b = M.col(n - 1)  # 约束右边项
+    b = M.col(n__ - 1)  # 约束右边项
 
     Z = Cb.dot(b)  # 目标函数值
 
     lam_lst = []  # 检验系数
-    for j in range(n - 1):
+    for j in range(n__ - 1):
         pi = M.col(j)
-        lbd = max_f[j] - Cb.dot(pi)
+        lbd = tar_f[j] - Cb.dot(pi)
         lam_lst.append(lbd)
     if max(lam_lst) <= 0:
         flag = False
@@ -68,7 +70,8 @@ def operation(Xb_, A_):
     col_in = M.col(col_in_order)
 
     theta_lst = []
-    for k in range(m):
+    m__ = len(A_)
+    for k in range(m__):
         if col_in[k] != 0:
             theta = b[k] / col_in[k]
         else:
@@ -83,6 +86,54 @@ def operation(Xb_, A_):
     return flag, A_, Xb_, Z, lam_lst, theta_lst
 
 
+def iterate(num, matrix, max_function, process_=False):
+    """
+    总体运行函数
+    :param num: 决策变量个数
+    :param matrix: 矩阵
+    :param max_function: 目标函数max的系数
+    :param process_: 是否输出过程
+    :return:
+    """
+    m_ = len(matrix)
+    X_ = [i + 1 for i in range(num, num + m_)]  # 初始基变量下标
+    r_ = 0  # 迭代次数
+    while 1:
+        a_, b_, c_, d_, e_, f_ = operation(X_, matrix, max_function)
+        r_ += 1
+        X_ = c_
+        if process_:
+            print(f'----------------第{r_}次迭代----------------')
+            print('矩阵A为:')
+            for item in range(m_):
+                print(b_[item])
+            print('基变量下标为', c_)
+            print('最值Z为:', d_)
+            print('各项检验系数λ为:', e_)
+            print('θ值为:', f_)
+        if a_:
+            matrix = simplify(X_, matrix)
+        else:
+            print(f'----------------最终迭代{r_}次----------------')
+            print('最终矩阵A为:')
+            for item in range(m_):
+                print(b_[item])
+            print('最终基变量下标为', c_)
+            print('最优值Z为:', d_)
+            print('各项检验系数λ为:', e_)
+            n = len(b_[0]) - 1
+            B = sp.Matrix(b_)[:, -1].tolist()
+            print('----------------最终变量值为----------------')
+            for i in range(n):
+                if i + 1 in c_:
+                    index = c_.index(i + 1)
+                    print(f'x{i + 1} = {B[index][0]}')
+                else:
+                    print(f"x{i + 1} = 0")
+            break
+    pass
+
+
 if __name__ == '__main__':
     dimension = 3
     max_f = [2, 4, 5, 0, 0, 0]
@@ -90,16 +141,27 @@ if __name__ == '__main__':
          [0, 2, 2, 0, 1, 0, 4],
          [3, 1, 2, 0, 0, 1, 7]]
     m = len(A)
-    n = len(A[0])
     X = [i + 1 for i in range(dimension, dimension + m)]  # 初始基变量下标
+    r = 0  # 迭代次数
+    process = True
     while 1:
-        a, b, c, d, e, f = operation(X, A)
+        a, b, c, d, e, f = operation(X, A, max_f)
+        r += 1
         X = c
+        if process:
+            print(f'第{r}次迭代:')
+            print('矩阵A为:', b)
+            print('基变量下标为', c)
+            print('最值Z为:', d)
+            print('各项检验系数λ为:', e)
+            print('θ值为:', f)
+            print('---------------------------------------------------------')
         if a:
             A = simplify(X, A)
         else:
-            print('最终矩阵为:', b)
+            print(f'最终迭代{r}次')
+            print('最终矩阵A为:', b)
             print('最终基变量下标为', c)
-            print('最优值为:', d)
-            print('各项检验系数为:', e)
+            print('最优值Z为:', d)
+            print('各项检验系数λ为:', e)
             break

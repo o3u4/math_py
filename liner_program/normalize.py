@@ -23,10 +23,10 @@ def neg_to_positive(p, matrix):  # 标准化非正变量
     return matrix
 
 
-def add_var(matrix, d):     # 标准化
+def add_var(matrix, d):  # 标准化
     m = len(matrix)
-    neg_num = 0             # 松弛变量个数
-    pos_num = 0             # 剩余变量个数
+    neg_num = 0  # 松弛变量个数
+    pos_num = 0  # 剩余变量个数
     for it in matrix:
         if it[d] == -1:
             neg_num += 1
@@ -34,9 +34,9 @@ def add_var(matrix, d):     # 标准化
             pos_num += 1
 
     ma = sp.Matrix(matrix)
-    ma.col_del(d)           # 去除符号项
+    ma.col_del(d)  # 去除符号项
 
-    if m > neg_num > 0:     # 添加松弛变量
+    if m > neg_num > 0:  # 添加松弛变量
         i = sp.eye(neg_num)
         a = sp.zeros((m - neg_num), neg_num)
         slack = i.row_insert(neg_num, a)
@@ -45,7 +45,7 @@ def add_var(matrix, d):     # 标准化
     elif neg_num == m:
         ma = ma.col_insert(d, sp.eye(neg_num))
 
-    if m > pos_num > 0:     # 添加剩余变量
+    if m > pos_num > 0:  # 添加剩余变量
         i = sp.eye(pos_num)
         a = sp.zeros((m - pos_num), pos_num)
         slack = i.row_insert(pos_num, a)
@@ -53,12 +53,24 @@ def add_var(matrix, d):     # 标准化
     elif pos_num == m:
         ma = ma.col_insert(d, sp.eye(pos_num))
 
-    ma = ma.col_insert(d + neg_num + pos_num, sp.zeros(m, 1))
+    # ma = ma.col_insert(d + neg_num + pos_num, sp.zeros(m, 1))
     ma = ma.tolist()
     return ma
 
 
+def normal(is_var_positive, matrix):
+    matrix = neg_to_positive(is_var_positive, matrix)
+    number = len(is_var_positive)       # 决策变量个数
+    matrix = add_var(matrix, number)
+    print('----------------标准化矩阵为----------------')
+    for i in range(len(matrix)):
+        print(matrix[i])
+    return number, matrix
+
+
 if __name__ == '__main__':
+    a, b = normal(positive, A)
+    print(a, b)
     A = neg_to_positive(positive, A)
     print(A)
     m = add_var(A, 2)
