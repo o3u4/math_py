@@ -86,31 +86,51 @@ def operation(Xb_, A_, tar_f):
     return flag, A_, Xb_, Z, lam_lst, theta_lst
 
 
-def iterate(num, matrix, max_function, process_=False):
+def found_base(matrix):
+    """
+    找现成的单位矩阵, 按顺序返回变量下标
+    :param matrix: 操作的矩阵
+    :return:
+    X: 基向量下标
+    """
+    M = sp.Matrix(matrix)
+    m = len(matrix)
+    n = len(matrix[0])
+    X = []
+    for i in range(m):
+        for j in range(n):
+            col = M.col(j)
+            cl = sp.Matrix.zeros(m, 1)
+            cl[i, 0] = 1
+            if col == cl:
+                X.append(j + 1)
+    return X
+
+
+def iterate(matrix, max_function, process_=False):
     """
     总体运行函数
-    :param num: 决策变量个数
     :param matrix: 矩阵
     :param max_function: 目标函数max的系数
     :param process_: 是否输出过程
     :return:
     """
     m_ = len(matrix)
-    X_ = [i + 1 for i in range(num, num + m_)]  # 初始基变量下标
+    X_ = found_base(matrix)  # 初始基变量下标
     r_ = 0  # 迭代次数
     while 1:
         a_, b_, c_, d_, e_, f_ = operation(X_, matrix, max_function)
         r_ += 1
-        X_ = c_
         if process_:
             print(f'----------------第{r_}次迭代----------------')
             print('矩阵A为:')
             for item in range(m_):
                 print(b_[item])
-            print('基变量下标为', c_)
+            print('更新后基变量下标为:', c_)
             print('最值Z为:', d_)
             print('各项检验系数λ为:', e_)
             print('θ值为:', f_)
+        X_ = c_
         if a_:
             matrix = simplify(X_, matrix)
         else:
@@ -140,28 +160,4 @@ if __name__ == '__main__':
     A = [[1, 3, -1, 1, 0, 0, 6],
          [0, 2, 2, 0, 1, 0, 4],
          [3, 1, 2, 0, 0, 1, 7]]
-    m = len(A)
-    X = [i + 1 for i in range(dimension, dimension + m)]  # 初始基变量下标
-    r = 0  # 迭代次数
-    process = True
-    while 1:
-        a, b, c, d, e, f = operation(X, A, max_f)
-        r += 1
-        X = c
-        if process:
-            print(f'第{r}次迭代:')
-            print('矩阵A为:', b)
-            print('基变量下标为', c)
-            print('最值Z为:', d)
-            print('各项检验系数λ为:', e)
-            print('θ值为:', f)
-            print('---------------------------------------------------------')
-        if a:
-            A = simplify(X, A)
-        else:
-            print(f'最终迭代{r}次')
-            print('最终矩阵A为:', b)
-            print('最终基变量下标为', c)
-            print('最优值Z为:', d)
-            print('各项检验系数λ为:', e)
-            break
+    iterate(A, max_f, True)
