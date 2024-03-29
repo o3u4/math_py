@@ -1,4 +1,3 @@
-# 化为标准型, 矩阵 <=, >=, 0的顺序从上到下
 import sympy as sp
 
 dim = 2  # 目标函数决策变量个数
@@ -23,45 +22,42 @@ def neg_to_positive(p, matrix):  # 标准化非正变量
     return matrix
 
 
-def add_var(matrix, d):  # 标准化
-    m = len(matrix)
-    neg_num = 0  # 松弛变量个数
-    pos_num = 0  # 剩余变量个数
-    for it in matrix:
-        if it[d] == -1:
-            neg_num += 1
-        if it[d] == 1:
-            pos_num += 1
+def add_col(matrix, row, col):
+    M = sp.Matrix(matrix)
+    m_ = len(matrix)
+    if matrix[row][col] == 0:  # 目标符号为 =
+        index = col
+    elif matrix[row][col] == 1:
+        col_1 = M.zeros(m_, 1)
+        col_1[row, 0] = -1  # 第row个元素为-1, 其余全为0
+        M = M.col_insert(col, col_1)  # 添加松弛变量
+        index = col + 1
+        matrix = M.tolist()
+    else:
+        col_1 = M.zeros(m_, 1)
+        col_1[row, 0] = 1  # 第row个元素为1, 其余全为0
+        M = M.col_insert(col, col_1)  # 添加剩余变量
+        index = col + 1
+        matrix = M.tolist()
+    return matrix, index
 
-    ma = sp.Matrix(matrix)
-    ma.col_del(d)  # 去除符号项
 
-    if m > neg_num > 0:  # 添加松弛变量
-        i = sp.eye(neg_num)
-        a = sp.zeros((m - neg_num), neg_num)
-        slack = i.row_insert(neg_num, a)
-        ma = ma.col_insert(d, slack)
-
-    elif neg_num == m:
-        ma = ma.col_insert(d, sp.eye(neg_num))
-
-    if m > pos_num > 0:  # 添加剩余变量
-        i = sp.eye(pos_num)
-        a = sp.zeros((m - pos_num), pos_num)
-        slack = i.row_insert(pos_num, a)
-        ma = ma.col_insert(d, slack)
-    elif pos_num == m:
-        ma = ma.col_insert(d, sp.eye(pos_num))
-
-    # ma = ma.col_insert(d + neg_num + pos_num, sp.zeros(m, 1))
-    ma = ma.tolist()
-    return ma
+def iter_add(matrix, dimension):
+    m_ = len(matrix)
+    mat = matrix  # 初始矩阵
+    col_n = dimension  # 初始符号列
+    for j in range(m_):  # 行迭代
+        mat, col_n = add_col(mat, j, col_n)  # 更新变换后的矩阵和符号列索引
+    mat = sp.Matrix(mat)
+    mat.col_del(col_n)
+    matrix = mat.tolist()
+    return matrix
 
 
 def normal(is_var_positive, matrix):
     matrix = neg_to_positive(is_var_positive, matrix)
-    number = len(is_var_positive)       # 决策变量个数
-    matrix = add_var(matrix, number)
+    number = len(is_var_positive)  # 决策变量个数
+    matrix = iter_add(matrix, number)
     print('----------------标准化矩阵为----------------')
     for i in range(len(matrix)):
         print(matrix[i])
@@ -71,7 +67,3 @@ def normal(is_var_positive, matrix):
 if __name__ == '__main__':
     a, b = normal(positive, A)
     print(a, b)
-    A = neg_to_positive(positive, A)
-    print(A)
-    m = add_var(A, 2)
-    print(m)
