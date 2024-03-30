@@ -111,9 +111,12 @@ def iterate(matrix, max_function, process_=False):
     """
     总体运行函数
     :param matrix: 矩阵
-    :param max_function: 目标函数max的系数
+    :param max_function: 目标函数 max的系数
     :param process_: 是否输出过程
     :return:
+    b_: 变换之后最后的矩阵
+    d_: 迭代之后的最值
+    c_: 迭代之后的基向量下标
     """
     m_ = len(matrix)
     X_ = found_base(matrix)  # 初始基变量下标
@@ -151,7 +154,7 @@ def iterate(matrix, max_function, process_=False):
                 else:
                     print(f"x{i + 1} = 0")
             break
-    pass
+    return b_, d_, c_
 
 
 if __name__ == '__main__':
@@ -160,4 +163,5 @@ if __name__ == '__main__':
     A = [[1, 3, -1, 1, 0, 0, 6],
          [0, 2, 2, 0, 1, 0, 4],
          [3, 1, 2, 0, 0, 1, 7]]
-    iterate(A, max_f, True)
+    M = iterate(A, max_f, True)[0]
+    print(M)

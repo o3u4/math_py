@@ -1,5 +1,6 @@
 from liner_program.artificial_var import iter_add
 from liner_program.simple_method import iterate
+import sympy as sp
 
 d = 3
 A = [[1, 1, 1, 0, 7],
@@ -17,9 +18,16 @@ def big_m_solve(matrix, target_f, var_m, process=False):
             target_f.append(-var_m)
         else:
             target_f.append(0)
-    iterate(matrix, target_f, process)
+    Xb = iterate(matrix, target_f, process)[2]  # Xb为基向量下标
     lst = [k + 1 for k in lst]
+    flag = True
+    for i in lst:
+        if i in Xb:
+            flag = False
+            break
     print('其中人工变量下标为:', lst)
+    if not flag:
+        print("无解, 检查可行域!")
 
 
 if __name__ == '__main__':

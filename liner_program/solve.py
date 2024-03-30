@@ -2,13 +2,7 @@ from liner_program.normalize import neg_to_positive
 from liner_program.normalize import normal
 from liner_program.simple_method import iterate
 from liner_program.big_M import big_m_solve
-
-dimension = 3
-max_f = [2, 4, 5, 0, 0, 0]
-A = [[1, 3, -1, 1, 0, 0, 6],
-     [0, 2, 2, 0, 1, 0, 4],
-     [3, 1, 2, 0, 0, 1, 7]]
-
+from liner_program.two_stage import two_stage_solve
 
 if __name__ == '__main__':
     f1 = input("是否输入资源配置型问题(y,Y/n,N)")
@@ -47,11 +41,15 @@ if __name__ == '__main__':
         f2 = int(input("以什么方法解决问题(1: 大M法/2: 二阶段法)"))
         if f2 == 1:
             m = int(input("输入大M取值(整数):"))
-            matrix = neg_to_positive(is_positive, matrix)   # 变量取正
+            matrix = neg_to_positive(is_positive, matrix)  # 变量取正
             g = input("是否展示迭代过程(y,Y/n,N):")
             process = False
             if g == 'y' or g == 'Y':
                 process = True
             big_m_solve(matrix, tar, m, process)
         else:
-            print('二阶段法敬请期待!')
+            g = input("是否展示迭代过程(y,Y/n,N):")
+            process = False
+            if g == 'y' or g == 'Y':
+                process = True
+            two_stage_solve(matrix, tar, process)
