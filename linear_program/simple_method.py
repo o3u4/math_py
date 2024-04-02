@@ -104,6 +104,7 @@ def found_base(matrix):
             cl[i, 0] = 1
             if col == cl:
                 X.append(j + 1)
+                break
     return X
 
 
