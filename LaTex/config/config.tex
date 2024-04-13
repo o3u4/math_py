@@ -1,0 +1,160 @@
+% \documentclass[12pt, a4paper,oneside, UTF8]{ctexbook}
+% \usepackage[dvipsnames]{xcolor}   % (环境2)删除
+\usepackage[dvipsnames, svgnames]{xcolor} % (环境2)替换原来的 \usepackage[dvipsnames]{xcolor}
+\usepackage[strict]{changepage} % (环境2)添加
+\usepackage{framed}             % (环境2)添加
+\usepackage{amsmath}   % 数学公式
+\usepackage{amsthm}    % 定理环境
+\usepackage{amssymb}   % 更多公式符号
+\usepackage{graphicx}  % 插图
+\usepackage{mathrsfs}  % 数学字体
+\usepackage{enumitem}  % 列表
+\usepackage{geometry}  % 页面调整
+\usepackage{unicode-math}
+\usepackage[colorlinks,linkcolor=black]{hyperref}
+
+\usepackage{titling}    % 封面添加的
+
+\usepackage{tcolorbox}  % (环境1)添加的
+\tcbuselibrary{most}    % (环境1)添加的
+
+\graphicspath{ {figure/},{../figure/}, {config/}, {../config/} }  % 配置图形文件检索目录
+\linespread{1.5} % 行高
+
+% 页码设置
+\geometry{top=25.4mm,bottom=25.4mm,left=20mm,right=20mm,headheight=2.17cm,headsep=4mm,footskip=12mm}
+
+% 设置列表环境的上下间距
+\setenumerate[1]{itemsep=5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+
+
+% % 原始定理环境
+% % ########## 定理环境 start ##############################################################
+% \theoremstyle{definition}
+% \newtheorem{defn}{\indent 定义}[section]
+
+% \newtheorem{lemma}{\indent 引理}[section]    % 引理 定理 推论 准则 共用一个编号计数
+% \newtheorem{thm}[lemma]{\indent 定理}
+% \newtheorem{corollary}[lemma]{\indent 推论}
+% \newtheorem{criterion}[lemma]{\indent 准则}
+
+\newtheorem{proposition}{\indent 命题}[section]
+\newtheorem{example}{\indent \color{SeaGreen}{例}}[section] % 绿色文字的 例 ，不需要就去除\color{SeaGreen}{}
+\newtheorem*{rmk}{\indent 注}
+
+% % 两种方式定义中文的 证明 和 解 的环境：
+% % 缺点：\qedhere 命令将会失效【技术有限，暂时无法解决】
+\renewenvironment{proof}{\par\textbf{证明.}\;}{\qed\par}
+\newenvironment{solution}{\par{\textbf{解.}}\;}{\qed\par}
+
+% % 缺点：\bf 是过时命令，可以用 textb f等替代，但编译会有关于字体的警告，不过不影响使用【技术有限，暂时无法解决】
+% %\renewcommand{\proofname}{\indent\bf 证明}
+% %\newenvironment{solution}{\begin{proof}[\indent\bf 解]}{\end{proof}}
+% % ######### 定理环境 end  ##############################################################
+
+
+
+
+
+% % #### 将 config.tex 中的定理环境的对应部分替换为如下内容   (环境2)
+% % 定义单独编号，其他四个共用一个编号计数 这里只列举了五种，其他可类似定义（未定义的使用原来的也可）
+% \newtcbtheorem[number within=section]{defn}%
+% {定义}{colback=OliveGreen!10,colframe=Green!70,fonttitle=\bfseries}{def}
+
+% \newtcbtheorem[number within=section]{lemma}%
+% {引理}{colback=Salmon!20,colframe=Salmon!90!Black,fonttitle=\bfseries}{lem}
+
+% % 使用另一个计数器 use counter from=lemma
+% \newtcbtheorem[use counter from=lemma, number within=section]{them}%
+% {定理}{colback=SeaGreen!10!CornflowerBlue!10,colframe=RoyalPurple!55!Aquamarine!100!,fonttitle=\bfseries}{them}
+
+% \newtcbtheorem[use counter from=lemma, number within=section]{criterion}%
+% {准则}{colback=green!5,colframe=green!35!black,fonttitle=\bfseries}{cri}
+
+% \newtcbtheorem[use counter from=lemma, number within=section]{corollary}%
+% {推论}{colback=Emerald!10,colframe=cyan!40!black,fonttitle=\bfseries}{cor}
+% % colback=red!5,colframe=red!75!black
+
+% % 这个颜色我不喜欢
+% %\newtcbtheorem[number within=section]{proposition}%
+% %{命题}{colback=red!5,colframe=red!75!black,fonttitle=\bfseries}{cor}
+
+% % .... 命题 例 注 证明 解 使用之前的就可以（全文都是这种框框就很丑了），也可以按照上述定义 ...
+
+
+
+
+
+
+% #### 将 config.tex 中的定理环境的对应部分替换为如下内容   (环境3)
+\definecolor{greenshade}{rgb}{0.90,1,0.92} 		% 绿色文本框，竖线颜色设为 Green
+\definecolor{redshade}{rgb}{1.00,0.88,0.88}   		% 红色文本框，竖线颜色设为 LightCoral
+\definecolor{brownshade}{rgb}{0.99,0.95,0.9} 		% 莫兰迪棕色，竖线颜色设为 BurlyWood
+\definecolor{lilacshade}{rgb}{0.95,0.93,0.98}    	% 淡紫色，竖线颜色设为 Plum
+\definecolor{orangeshade}{rgb}{1.00,0.88,0.82} 		% 橙色，竖线颜色设为 DarkOrange
+\definecolor{lightblueshade}{rgb}{0.8,0.92,1} 		% 淡蓝色，竖线颜色设为 LightSkyBlue
+\theoremstyle{definition}
+\newtheorem{defn1}{\indent 定义}[section]
+\newtheorem{lemma1}{\indent 引理}[section]
+\newtheorem{thm1}[lemma1]{\indent 定理}
+\newtheorem{corollary1}[lemma1]{\indent 推论}
+\newtheorem{criterion1}[lemma1]{\indent 准则}
+% \newtheorem*{rmk1}{\indent 注}
+
+\newenvironment{formal}[2][]{%
+    \def\FrameCommand{%
+        \hspace{1pt}%
+        {\color{#1}\vrule width 2pt}%
+        {\color{#2}\vrule width 4pt}%
+        \colorbox{#2}%
+    }%
+    \MakeFramed{\advance\hsize-\width\FrameRestore}%
+    \noindent\hspace{-4.55pt}%
+    \begin{adjustwidth}{}{7pt}\vspace{2pt}\vspace{2pt}}{%
+        \vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+
+% 定义
+\newenvironment{defn}{\begin{formal}[Green]{greenshade}\begin{defn1}}{\end{defn1}\end{formal}}
+% 定理
+\newenvironment{thm}{\begin{formal}[LightSkyBlue]{lightblueshade}\begin{thm1}}{\end{thm1}\end{formal}}
+% 引理
+\newenvironment{lemma}{\begin{formal}[Plum]{lilacshade}\begin{lemma1}}{\end{lemma1}\end{formal}}
+% 推论
+\newenvironment{corollary}{\begin{formal}[BurlyWood]{brownshade}\begin{corollary1}}{\end{corollary1}\end{formal}}
+% 准则
+\newenvironment{criterion}{\begin{formal}[DarkOrange]{orangeshade}\begin{criterion1}}{\end{criterion1}\end{formal}}
+% 注
+% \newenvironment{rmk}{\begin{formal}[LightCoral]{redshade}\begin{rmk1}}{\end{rmk1}\end{formal}}
+
+
+
+
+
+
+% ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 以下是自定义的命令  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+% 用于调整表格的高度  使用 \hline\xrowht{25pt}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+
+% 表格环境内长内容换行
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+
+% 使用\linespread{1.5} 之后 cases 环境的行高也会改变，重新定义一个 ca 环境可以自动控制 cases 环境行高
+\newenvironment{ca}[1][1]{\linespread{#1} \selectfont \begin{cases}}{\end{cases}}
+% 和上面一样
+\newenvironment{vx}[1][1]{\linespread{#1} \selectfont \begin{vmatrix}}{\end{vmatrix}}
+
+\def\d{\textup{d}} % 直立体 d 用于微分符号 dx
+\def\R{\mathbb{R}} % 实数域
+\newcommand{\bs}[1]{\boldsymbol{#1}}    % 加粗，常用于向量
+\newcommand{\ora}[1]{\overrightarrow{#1}} % 向量
+
+% 数学 平行 符号
+\newcommand{\pll}{\kern 0.56em/\kern -0.8em /\kern 0.56em}
+
+% 用于空行\myspace{1} 表示空一行 填 2 表示空两行  
+\newcommand{\myspace}[1]{\par\vspace{#1\baselineskip}}
