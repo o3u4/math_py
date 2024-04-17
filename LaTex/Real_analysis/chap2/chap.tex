@@ -1,0 +1,66 @@
+% 定理环境3
+
+\ifx\allfiles\undefined
+\documentclass[12pt, a4paper, oneside, UTF8]{ctexbook}  % +  这一句是新增加的
+
+\input{../config/config}
+\begin{document}
+% \input{../config/cover} % 单独编译时，其实不用编译封面目录之类的，如需要不注释这句即可
+\else
+\fi
+%  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 正文部分 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+\chapter{Lebesgue 测度}
+\section{Jordan 测度}
+
+\begin{defn}
+    对每一$\R$中的紧集$E$, 定义
+    \[ J^*(E)=inf\left \{\sum_{i}^{n}\ell(I_i):\left \{ I_i \right \}_{i\ge1}^{n}\mbox{是一列区间并且}E\subseteq\bigcup_{i=1}^{n}I_i\right \} \]
+    称,$J^*(E)$为$E$的\textbf{\emph{Jordan 外测度}}.
+
+    \[ J_*(E)=inf\left \{\sum_{i}^{n}\ell(I_i):\left \{ I_i \right \}_{i\ge1}^{n}\mbox{是一列区间并且}\bigcup_{i=1}^{n}I_i\subseteq E\right \} \]
+    称,$J_*(E)$为$E$的\textbf{\emph{Jordan 内测度}}.
+
+    若$J^*(E)=J_*(E)$, 称$E$为\textbf{\emph{Jordan 可测}}, $J(E)=J^*(E)=J_*(E)$为$E$的\textbf{\emph{Jordan 测度}}.
+\end{defn}
+
+\begin{rmk}
+    Jordan 测度性质
+    \begin{itemize}
+        \item Jordan 测度定义为有限区间的逼近
+        \item Jordan 可测集只构成代数
+        \item Jordan 测度只满足有限可加性, 非可数可加
+    \end{itemize}
+\end{rmk}
+
+\begin{example}
+    设$C$是\textbf{\emph{Cantor}}三分集, 证$J(C)=0$
+    \begin{proof}
+        略.
+    \par 易证$J^*(C) \geq J_*(C)$, 只需证$J^*(C)=0$即可.
+    \end{proof}
+\end{example}
+
+\begin{example}
+    $J_*(\mathbb{Q}\bigcap[0, 1])==0$ and $J^*(\mathbb{Q}\bigcap[0, 1])==1$
+    \begin{proof}
+        略.
+    \end{proof}
+\end{example}
+
+\begin{defn}
+    映射$\mu :\mathbb{R}\to [0, +\infty]$, $A$, $B$为$\mathbb{R}$中集合, 该映射满足
+    \begin{itemize}
+        \item $\mu(A)\leq \mu(B)$, 若$A\subseteq B$.
+        \item $\mu(\bigcup_{i=1}^{\infty}A_i) =\sum_{i=1}^{\infty}\mu(A_i)$, 若$A_i$互不相交.
+        \item $\mu([0,1])=1$.
+        \item $\mu(E)=\mu(E+x)$, 对$\forall x\in\R$.
+    \end{itemize}
+    \par 若$\exists$ $\mu(E)$, 其中$E\subset \R$, 则称$E$为 \textbf{\emph{$\mu$-可测}} 集.
+\end{defn}
+
+
+%  ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 正文部分 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+\ifx\allfiles\undefined
+\end{document}
+\fi
