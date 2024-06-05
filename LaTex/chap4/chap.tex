@@ -1,0 +1,522 @@
+% 定理环境3
+
+\ifx\allfiles\undefined
+
+\documentclass[12pt, a4paper, oneside, UTF8]{ctexbook}  % +  这一句是新增加的
+
+\input{../config/config}
+\begin{document}
+\else
+\fi
+%  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 正文部分 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+\chapter{Lebesgue 积分}
+\section{非负简单函数的Lebesgue 积分}
+
+\par 设$D$是可测集, $\{E_k\}$是$D$的有限或可数个两两不交的可测子集, 使得$\cup E_k=D$, 则$\{E_k\}$为$D$的一个\textbf{\emph{分划}}.
+\par 设$f$是可测集$D$上的非负简单函数. 于是有$D$的分划$\{E_i\}_{1\leq i\leq S}$及非负实数组$\{a_i\}_{1\leq i\leq S}$使
+                    $$ f(x) = \sum_{i=1}^{S}a_i\mathcal{X}_{E_i}(x), \quad x\in D.  $$
+\begin{defn}
+    $f$在$D$上的\textbf{\emph{Lebesgue 积分}}为
+    \begin{equation}
+        \int_{D}f(x)dx=\sum_{i=1}^{S}a_im(E_i)
+    \end{equation}
+    且当$\int_{D}f(x)dx<\infty$时, 称$f$在$D$上 \textbf{\emph{$L$ 可积}}.
+\end{defn}
+
+\begin{thm}
+    设$f$和$g$都是可测集$D$上的非负简单函数, 
+    \begin{itemize}
+        \item 1). 若它们在$D$上几乎处处相等. 则有$ \int_{D}f = \int_{D}g $.
+        \item 2). 若在$D$上几乎处处有$f\leq g$, 则$ \int_{D}f \leq \int_{D}g $.
+        \item 3). 若$\lambda, \mu \geq 0$,则 $\int _{D}(\lambda f + \mu g)=\lambda\int _{D}f+\mu\int _{D}g$.
+        \item 4). 若$A, B$是$D$的不相交的可测子集, 则$\int _{A\cup B}f=\int_{A}f+\int_{B}f$.
+    \end{itemize}
+\end{thm}
+
+\begin{lemma}
+    设$g$和$f_n$都是可测集$D$上的非负简单函数, 它们满足以下两个条件:
+    \begin{itemize}
+        \item 1). 对几乎所有$x\in D$, $\{ f_n(x)\}_{n\geq 1}$单增.
+        \item 2). $0\leq g(x) \leq \lim_{n\to\infty f_n(x)}$(几乎处处与$D$).
+    \end{itemize}
+    则有$$\int _{D}g \leq \lim_{n\to\infty}\int_{D}f_n$$
+\end{lemma}
+
+\begin{thm}
+    设$\{f_n\}$和$\{g_n\}$都是可测集$D$上的非负简单函数, 且对所有$x \in D$, $\{f_n\}, \{g_n\}$单增收敛与相同极限, 则有
+    $$ \lim_{n\to\infty}\int_{D}f_n = \lim_{n\to\infty}\int_{D}g_n $$
+\end{thm}
+
+
+\section{非负可测函数的Lebesgue 积分}
+    \par 设$f$是可测集$D$上的非负可测函数, 则可取$D$上的非负简单函数列$\{f_n\}$, 使对每一$x\in D$, 
+    $\{f_n(x)\}$单增收敛于$f(x)$.
+
+    \begin{defn}
+        $f$在$D$上的Lebesgue 积分定义为
+        \begin{equation}
+            \int_{D}f=\lim_{n\to\infty}\int_{D}f_n
+        \end{equation}
+    \end{defn}
+    并称$f$的积分由$\{f_n\}$定义, 当$\int_{D}f<\infty$时, 称$f$在$D$上\textbf{\emph{$L$ 可积}}.
+
+    \begin{rmk}
+        由上述Lebesgue 积分的定义可知, 对几乎处处单增收敛的函数列而言, 极限和积分被定义为可交换.
+        与Riemann积分不同, 极限和积分可交换的必要条件是函数列一致收敛且每一项都连续.
+    \end{rmk}
+
+
+
+\begin{thm}
+    设$f$和$g$都是可测集$D$上的非负可测函数, 
+    \begin{itemize}
+        \item 1). 若它们在$D$上几乎处处相等. 则有$ \int_{D}f = \int_{D}g $.
+        \item 2). 若$\lambda, \mu \geq 0$,则 $\int _{D}(\lambda f + \mu g)=\lambda\int _{D}f+\mu\int _{D}g$.
+        \item 3). 若$A, B$是$D$的不相交的可测子集, 则$\int _{A\cup B}f=\int_{A}f+\int_{B}f$.
+    \end{itemize}
+\end{thm}
+
+\begin{thm}[Levi's theorem]\label{Levi}
+    设$f$和$\{f_n\}$是可测集$D$上的非负可测函数, 且对几乎所有$x \in D$, $\{f_n\}$单增收敛于$f(x)$, 则
+    $$ \int_{D}f=\lim_{n\to\infty}\int_{D}f_n $$
+\end{thm}
+
+\begin{corollary}[逐项积分]
+    设$\{u_k\}$是可测集$D$上的非负可测函数, 则
+    $$ \int_{D}(\sum_{k=1}^{\infty}u_k) = \sum_{k=1}^{\infty}\int_{D}u_k $$
+\end{corollary}
+
+\begin{proof}
+    对每一$n>1$, 有$$ \int_{D}(\sum_{k=1}^{n}u_k) = \sum_{k=1}^{n}\int_{D}u_k $$
+    现在$f=\sum_{k=1}^{\infty}u_k$, $f_n=\sum_{k=1}^{n}u_k$满足定理 \ref{Levi} 条件, 因此
+    $$ \int_{D}(\sum_{k=1}^{\infty}u_k) = \lim_{n\to\infty}\int_{D}(\sum_{k=1}^{n}u_k) $$
+\end{proof}
+
+
+\begin{thm}[Fatou]\label{Fatou}
+    设$\{f_n\}$是可测集$D$上的非负可测函数, 则
+    \begin{equation} \label{fatou_eq}
+        \int_{D}\varliminf_{n\to\infty}f_n \leq \varliminf_{n\to\infty}\int_{D}f_n
+    \end{equation}
+\end{thm}
+
+\begin{proof}
+    对每一$n>1$, 令$$ g_n(x)=\inf_{k\geq n}f_k(x), \quad x\in D $$
+    则对每一$x\in D$, $\{g_n(x)\}$单增收敛于$\varliminf_{n\to\infty}f_n(x)$, 从而由单增收敛定理
+    \ref{Levi}, 有
+    \begin{equation} \label{eq1}
+        \int_{D}\varliminf_{n\to\infty}f_n = \varliminf_{n\to\infty}\int_{D}g_n
+    \end{equation}
+    因为$g_n \leq f_n$, 故
+    \begin{equation} \label{eq2}
+        \varliminf_{n\to\infty}\int_{D}g_n \leq \varliminf_{n\to\infty}\int_{D}f_n
+    \end{equation}
+    结合\ref{eq1}和\ref{eq2}, 即得\ref{fatou_eq}.
+\end{proof}
+
+\section{一般可测函数的Lebesgue 积分}
+设$f$是可测集$D$上的可测函数, $f_+, f_-$,分别称为$f$的正部和负部, 它们都是非负可测函数
+
+\begin{defn}
+    若$\int_{D}f_+$和$\int_{D}f_-$不同时为$\infty$, 则$f$在$D$上的Lebesgue 积分定义为
+    $$ \int_{D}f = \int_{D}f_+ - \int_{D}f_- $$
+    当$\int_{D}f$有限时, 称$f$在$D$上 \textbf{\emph{$L$ 可积}}, 记为$f\in L(D)$.
+\end{defn}
+
+
+\begin{thm}
+    设$f$和$g$都是可测集$D$上的可测函数, 
+    \begin{itemize}
+        \item 1). $f\in L(D)$的充要条件是$|f|\in L(D)$, 且$$ \left| \int_{D}f \right| \leq\int_{D}|f| $$
+        \item 2). 若$f\in L(D)$, 则$f$在$D$上几乎处处有限.
+        \item 3). 若在$D$上几乎处处有$f=g$, 则其一在$D$上可积, 另一也可积, 且积分值相等.
+    \end{itemize}
+\end{thm}
+
+\begin{rmk}
+    Lebesgue 积分可积与绝对可积等价, Riemann积分不一定.
+\end{rmk}
+
+
+\begin{thm}
+    设$f,g\in L(D)$, 则
+    \begin{itemize}
+        \item 1). 若$\lambda, \mu \in \R$, $\lambda f + \mu g\in L(D)$, 且
+        $$\int _{D}(\lambda f + \mu g)=\lambda\int _{D}f+\mu\int _{D}g$$
+        \item 2). 若$A, B$是$D$的不相交的可测子集, 则$\int _{A\cup B}f=\int_{A}f+\int_{B}f$
+        \item 3). 对任意$\varepsilon>0$, 有$D$上的有理值的简单函数$h$, 使$\int_{D}|f-h|<\varepsilon$.
+    \end{itemize}
+\end{thm}
+
+\begin{thm}[控制收敛定理]\label{control}
+    设$f,f_n$都是可测集$D$上的可测函数, 若满足
+    \begin{itemize}
+        \item 1). 存在$g\in L(D)$, 使对每一$n\geq 1$, 在$D$上几乎处处有$|f_n(x)|\leq g(x)$.
+        \item 2). 在$D$上$f_n$几乎处处收敛于$f$.
+    \end{itemize}
+    则, $f, f_n\in L(D)$, 且$$ \lim_{n\to\infty}\int_{D}f_n=\int_{D}f $$
+\end{thm}
+
+\begin{proof}
+    由$|f_n(x)|\leq g(x)$, 由$|f(x)|\leq g(x)$, 则通过$g\in L(D)$可知, $f, f_n\in L(D)$.
+    \par 其次, 再由$|f_n(x)|\leq g(x)$知, $$ g\pm f_n \geq 0 , \quad n\geq 1$$
+    由Fatou定理\ref{Fatou}, $$ \int_{D}\varliminf_{n\to\infty}(g\pm f_n)\leq 
+    \varliminf_{n\to\infty}\int_{D}(g\pm f_n) $$
+    由$g\in L(D)$, 上式等价于$$ \pm\int_{D}f\leq \varliminf_{n\to\infty}\left[\pm\int_{D}f_n\right]$$
+    从而
+    \begin{equation}\label{pos}
+        \int_{D}f \leq \varliminf_{n\to\infty}\int_{D}f_n
+    \end{equation}
+    \begin{equation}\label{neg}
+        -\int_{D}f \leq -\varlimsup_{n\to\infty}\int_{D}f_n
+    \end{equation}
+    结合\ref{pos}和\ref{neg}得$$ \varlimsup_{n\to\infty}\int_{D}f_n \leq \int_{D}f \leq \varliminf_{n\to\infty}\int_{D}f_n$$
+\end{proof}
+
+\begin{example}
+    证明$\lim_{n\to\infty}\int_{0}^{1}\frac{\sqrt{nx}}{1+nx}dx=0$.
+\end{example}
+
+\begin{proof}
+    注意到对任意足够大的$n$, $x\in (0,1]$内都有$\frac{\sqrt{nx}}{1+nx}\leq 1$. 且固定$x$, 有
+    $$ \lim_{n\to\infty}\frac{\sqrt{nx}}{1+nx}=0 $$ 
+    由控制收敛定理\ref{control}可得$$  \lim_{n\to\infty}\int_{0}^{1}\frac{\sqrt{nx}}{1+nx}dx=\int_{0}^{1} 0 dx=0  $$
+\end{proof}
+\vspace{1cm}
+
+\begin{example}
+    $\lim_{n\to\infty}\int_{0}^{2}(1+x^{2n})^{\frac{1}{n}}dx=\frac{10}{3}$.
+\end{example}
+
+\begin{proof}
+    注意到在$x\in[0, 2]$内, 有$(1+x^{2n})^{\frac{1}{n}}\leq (1+4^{n})^{\frac{1}{n}}<5$, 且
+    $$(1+x^{2n})^{\frac{1}{n}} \rightarrow\left\{\begin{array}{ll}1 & \text { if } x\leq 0 \\ x^2 & \text { if } x>1\end{array}\right.$$
+    可将积分分成两部分, $$ \int_{0}^{2}(1+x^{2n})^{\frac{1}{n}}=\int_{0}^{1}(1+x^{2n})^{\frac{1}{n}}+\int_{1}^{2}(1+x^{2n})^{\frac{1}{n}} $$
+    $$ \lim_{n\to\infty}\int_{0}^{2}(1+x^{2n})^{\frac{1}{n}}dx= \int_{0}^{1} dx + \int_{1}^{2}x^2 dx=
+    1+\frac{x^3}{3}\Bigg|^{2}_{1}=\frac{10}{3} $$
+\end{proof}
+\vspace{1cm}
+
+
+\begin{example}
+    $\lim_{n\to\infty}\int_{R}\frac{1}{1+e^{nf(x)}}dm=\frac{1}{2}m(\{f=0\})+m(\{f<0\})$.
+\end{example}
+
+\begin{proof}
+    对任意的$n, x$都有, $\frac{1}{1+e^{nf(x)}}<1$, 且
+    对足够大的$n$, 有$e^{n x} \rightarrow\left\{\begin{array}{ll}+\infty & \text { if } x>0 \\ 1 & \text { if } x=0 \\ 0 & \text { if } x<0\end{array}\right.$
+    $$\frac{1}{1+e^{nf(x)}} \rightarrow\left\{\begin{array}{ll}0 & \text { if } f>0 \\ \frac{1}{2} & \text { if } f=0 \\ 1 & \text { if } f<0\end{array}\right.$$
+    则, $$\lim_{n\to\infty}\int_{R}\frac{1}{1+e^{nf(x)}}dm=\int_{\{f>0\}} 0 + \int_{\{f=0\}}\frac{1}{2} + \int_{\{f<0\}} 1$$
+\end{proof}
+\vspace{1cm}
+
+\begin{example}
+    $f$为Lebesgue 可积, 证$$\lim_{n\to\infty}\int_{\R}\frac{f(x)}{1+nx}dm=0$$
+\end{example}
+
+\begin{proof}
+    提示: 因为$f$为Lebesgue 可积, 则$f$在$\R$上几乎处处$(a.e.)$有$f<\infty$.
+\end{proof}
+\vspace{1cm}
+
+\begin{example}
+    对任意$\alpha>0$, $$\lim_{n\to\infty}\int_{0}^{1}\frac{n\sqrt{x}\cdot sin^\alpha(nx)}{1+(nx)^2}dx=0$$
+\end{example}
+
+\begin{proof}
+    提示: 暂无.
+\end{proof}
+
+\newpage
+\section{概率}
+
+\begin{defn}
+    设$\Omega$为一样本空间, $\mathcal{F}$为$\Omega$上的事件域.若对任意事件$A\in\mathcal{F}$, 定义在$\mathcal{F}$上的实值函数$P(A)$满足:
+    \begin{itemize}
+        \item \textbf{\emph{非负性}} \quad 若$A\in\mathcal{F}$, 则$P(A)\geq 0$.
+        \item \textbf{\emph{正则性}} \quad $P(\Omega)=1$.
+        \item \textbf{\emph{可列可加}} \quad 若$A_1, A_2, .. , A_n, .. $互不相容, 则
+        $$P(\bigcup_{i=1}^{\infty}A_i)=\sum_{i=1}^{\infty}P(A_i)$$.
+    \end{itemize}
+    \par 则称$P(A)$为事件$A$的\textbf{\emph{概率}}, 称三元素$(\Omega, \mathcal{F}, P)$为\textbf{\emph{概率空间}}.
+\end{defn}
+
+\begin{defn}
+    若$X$是一个$(\Omega, \mathcal{F})$上的可测函数, 则称$X$为\textbf{\emph{随机变量}}.
+\end{defn}
+
+\begin{defn}
+    若$X$是$(\Omega, \mathcal{F}, P)$上的随机变量, 定义$E(X)=\int X dP$为其\textbf{\emph{期望}}.
+\end{defn}
+
+\begin{thm}[Markov's Inequality]\label{Markov}
+    对任意非负可测函数$f\geq 0$, 任意$\lambda\in(0, +\infty)$, 有
+    $$ m(\{f\geq\lambda\})\leq \frac{1}{\lambda}\int f $$
+\end{thm}
+
+\begin{proof}
+    对任意$\lambda>0$, 因为 $f\geq 0$, 则有
+    $$ \int f\geq \int_{\{f\geq\lambda\}}f\geq \lambda \cdot m(\{f\geq\lambda\}) $$
+\end{proof}
+
+
+\begin{thm}[Chebyshev's Inequality]\label{Chebyshev}
+    对任意$\lambda \in(0, +\infty)$, 有
+    $$ m(\{ |g(x)-a|\geq\lambda \})\leq\frac{1}{\lambda^2}\int |g-a|^2 $$
+\end{thm}
+
+\begin{proof}
+    由 Markov 不等式\ref{Markov}, 有
+    $$ m(\{|g-a|\geq\lambda\})=m(\{|g-a|^2\geq\lambda^2\})\leq\frac{1}{\lambda^2}\int |g-a|^2 $$
+\end{proof}
+
+\begin{rmk}
+    特别的, 令$a=\int g$, 为$g$的期望, $\sigma^2=\int |g-a|^2$为其方差, 有
+    $$ m(\{|g-a|\geq\varepsilon\})\leq\frac{\sigma^2}{\varepsilon^2} $$
+\end{rmk}
+
+
+\section{Riemann 积分与 Lebesgue积分}
+
+\begin{thm}[广义控制收敛定理]\label{General control}
+    设$f_n, f$为可测函数, $g_n, g\in L^1$ 满足$|f_n|\leq g_n, \forall n\in \mathbb{N}$. 若
+    $f_n \stackrel{a.e.}{\rightarrow} f$, $g_n \stackrel{a.e.}{\rightarrow} g$, 
+    且$\int g_n \stackrel{a.e.}{\rightarrow} \int g$. 则有 $f_n, f\in L^1$, 
+    且$\lim_{n\to\infty}\int f_n = \int f$.
+\end{thm}
+
+\begin{proof}
+    使用Fatou引理\ref{Fatou}.
+\end{proof}
+
+
+\begin{thm}
+    若$f, g\in L^1$, 且有$\int_{A} f = \int_{A} g , \quad \forall A \in \Omega $, 则有$ f \stackrel{a.e.}{=} g $.
+\end{thm}
+
+\begin{proof}
+    令$E_n = \{ x:f>g+\frac{1}{n} \}$, $F_n = \{ x:f<g-\frac{1}{n} \}$, 则有
+    $$ E = \{ f>g \} = \bigcup_{n=1}^\infty E_n $$
+    $$ F = \{ f<g \} = \bigcup_{n=1}^\infty F_n $$
+    由条件可得, $m(E_n) = m(F_n) = 0$, 则$m(E) = m(F) = 0$, 即 $ f \stackrel{a.e.}{=} g $.
+\end{proof}
+
+\begin{corollary}
+    若$h_n, h\in L^1(E)$, 且有$h_n \stackrel{a.e.}{\rightarrow} h$,
+     $\int_{E}|h_n|\stackrel{a.e.}{\rightarrow} \int_{E}|h|$, 则对任意可测集$F\subset E$, 有
+     $$ \lim_{n\to \infty}\int_{F}h_n = \int_{F} h$$
+\end{corollary}
+
+\begin{proof}
+    令$g_n = |h_n|\mathcal{X}_E $, $f_n = h_n\mathcal{X}_F$, $f = h\mathcal{X}_F$, 则有$|f_n|<g$, 
+    $f_n \stackrel{a.e.}{\rightarrow} f$, 由条件有$g_n \stackrel{a.e.}{\rightarrow} g$, 
+    $\int g_n \rightarrow \int g$, 使用广义控制收敛定理\ref{General control}, 
+    有$\lim_{n\to\infty}\int f_n = \int f$, 即$\lim_{n\to\infty}\int_{F}h_n = \int_F h$.
+\end{proof}
+
+
+\begin{thm}
+    若$f$在$[0, 1]$上 Riemann可积, 则$\forall \varepsilon>0, \exists \delta >0$, 使得当 $\| \Delta\| \leq \delta$ 时, 有
+    $$ S_\Delta - s_\Delta < \varepsilon $$
+    其中, $S$为 Darboux 上和, $s$为 Darboux 下和.
+\end{thm}
+
+
+\begin{thm}
+    若$f$在$[0, 1]$上 Riemann可积, 则 $f$ 有界.
+\end{thm}
+
+\begin{proof}
+    反证法: 假设$f$无界, 可证$S_\Delta - s_\Delta \rightarrow +\infty$, 矛盾.
+\end{proof}
+
+
+\begin{thm}
+    若$f$在$[0, 1]$上有界, 则$f$ Riemann可积当且仅当, 在分割
+    $\Delta_n = \{ [\frac{k}{2^n}, \frac{k+1}{2^n}] \}_{k=0}^{2^n-1}$下, 当$n\to\infty$时, 有$S_\Delta - s_\Delta \to 0$
+\end{thm}
+
+\begin{thm}
+    1).若$f$在$[0, 1]$上 Riemann可积, 则$f\in L^1([0, 1])$ Lebesgue可积, 且
+    $$(L)\int_{[0, 1]}f = (R)\int_0^1f(x)dx$$.
+
+    设$I_n\in \Delta_n$为包含$x$的区间, 定义$\omega_n(x) = \sup_{y\in I_n}f(y) - \inf_{y\in I_n}f(y)$, 
+    $\omega(x) = \lim_{n\to\infty}\omega_n(x), \forall x \in [0, 1]\backslash  
+    \{ \frac{i}{2^n}\}_{n\in \mathbb{N}, i\in \mathbb{Z}}$
+    \par 2). $f$在$[0, 1]$上 Riemann可积, 当且仅当$f$有界且在$[0, 1]$上几乎处处连续, 即
+    $\omega(x)\stackrel{a.e.}{=}0, x\in [0, 1]$. 
+\end{thm}
+
+\section{重积分, 累次积分, Fubini定理}
+
+\begin{defn}
+    $\R^n$上的函数$f$称为有\textbf{\emph{紧支集}}, 若$\{f\neq 0\}$是有界集.
+\end{defn}
+
+\begin{thm}\label{jzj}
+    设$f\in L(\R^n)$, 则对任何$\varepsilon >0$, 存在有紧支集的连续函数$g$, 使得$\int_{\R^n}|f-g|dx<\varepsilon$, 且
+    $\max_{x\in\R^n}|g(x)|\leq \sup_{x\in\R^n}|f(x)|$.
+\end{thm}
+
+\begin{defn}
+    设$n = p+q$, 则$\R^n = \R^p \times \R^q$. 设$f(x, y)$是$\R^n$上的可测函数. 定义$f$在$\R^n$上的 Lebesgue积分为
+    $\R^p \times \R^q$上的\textbf{\emph{重积分}}. 
+\end{defn}
+
+\begin{thm}[Tonelli]\label{Tonelli}
+    设$f(x, y)$是$(x, y)\in \R^p\times\R^q$上的非负可测函数, 则:
+    \begin{itemize}
+        \item (i) 对几乎所有的$x\in \R^p, f(x, y)$作为$y\in\R^q$的函数是非负可测的.
+        \item (ii) $F(x) = \int_{\R^q}f(x, y)dy$作为$x\in \R^p$的函数是非负可测的.
+        \item (iii) \begin{equation}\label{iterate}
+                        \int_{\R^p\times\R^q}f(x, y)dxdy = \int_{\R^p}\left[\int_{\R^q}f(x, y)dy\right]dx
+                    \end{equation}
+    \end{itemize}
+\end{thm}
+
+\begin{proof}
+    先设$f$是$\R^p\times\R^q$中的可测集$E$的特征函数, 即$f(x, y) = \mathcal{X}_E(x, y)$. 分情况讨论
+    \par 情形1: $E = I_p \times I_q$, 其中$I_p, I_q$分别是$\R^p$和$\R^q$中的长方体.
+    \par 此时当$x\notin I_p$时, $f(x, y)=0$, 当$x\in I_p$时, 有
+    $$ f(x, y) = \left\{\begin{array}{ll}1 & y\in I_q, \\ 0 & y\notin I_q.\end{array}\right. $$
+    所以对所有$x\in\R^p$, $f(x, y)$作为$y\in\R^q$的函数是非负可测的, 且
+    $$ F(x) = \int_{\R^q}f(x, y)dy = \left\{ \begin{array}{ll}\ell(I_q), & x\in I_p, \\0, & x\notin I_p. \end{array}\right. $$
+    $$ \int_{\R^p}F(x)dx = \int_{I_p}\ell(I_q)dx = \ell(I_p)\cdot\ell(I_q) $$
+    而上式右端即为$\R^p\times\R^q$上的积分. 从而\ref{iterate}成立.
+    \vspace{1cm}
+    \par 情形2: $E$是开集. 此时由定理可知$E = \bigcup_{k=1}^\infty I^{(k)}$, 其中$\{ I^{(k)} \}_{k\geq1}$, 是
+    $\R^p\times\R^q$中两两不相交半开方体. 现每一$I^{(k)}$可以表示为$I^{(k)} = I^{(k)}_p \times I^{(k)}_q$, 
+    其中$I^{(k)}_p, I^{(k)}_q$分别是$\R^p, \R^q$中的方体. 令$f_k(x, y)$是$I^{(k)}_p \times I^{(k)}_q$的特征函数, 
+    则$$ f(x, y) = \sum_{k=1}^\infty f_k(x, y) $$
+    由情形1, 对每一$f_k(x, y)$, 定理中的(i)到(iii)都满足. 则对一切$x\in \R^p, f(x, y)$作为$y\in\R^q$的函数非负可测, 
+    且由单调收敛定理\ref{Levi}, 
+    $$ F(x) = \int_{\R^q}f(x, y)dy = \int_{\R^q}\sum_{k=1}^\infty f_k(x, y)dy = \sum_{k=1}^\infty\int_{\R^q}f_k(x, y)dy $$
+    在$\R^p$上非负可测. 最后再用单调收敛定理\ref{Levi}, 
+    \begin{align*}
+        \int_{\R^p\times\R^q}f(x, y)dy& = \int_{\R^p\times\R^q}\sum_{k=1}^\infty f_k(x, y)dxdy \\
+                                      & = \sum_{k=1}^\infty \int_{\R^p\times\R^q}f_k(x, y)dxdy = 
+                                      \sum_{k=1}^\infty\int_{\R^p}\left[ \int_{\R^q} f_k(x, y)dy \right]dx \\
+                                      & = \int_{\R^p}\sum_{k=1}^\infty\left[ \int_{\R^q} f_k(x, y)dy \right]dx = 
+                                      \int_{\R^p}\left[ \int_{\R^q} \sum_{k=1}^\infty f_k(x, y)dy \right]dx \\
+                                      & = \int_{\R^p}\left[ \int_{\R^q} f(x, y)dy \right]dx
+    \end{align*}
+    这样我们证明了$E$为开集时(i)到(iii)成立. 
+    \vspace{1cm}
+    \par 情形3: $E$为有界闭集. 此时令
+    $$ G_1 = \{(x, y)\in\R^p\times\R^q: 0<d((x, y), E)<1\} $$
+    $$ G_2 = \{(x, y)\in\R^p\times\R^q: d((x, y), E)<1\} $$
+    则$G_1, G_2$为$\R^p\times\R^q$的有界开集, 且$E = G_2 - G_1, G_1\subset G_2$, 则有
+    $f(x, y) = f_2(x, y) - f_1(x, y)\geq 0$, 其中$f_1, f_2$分别是$G_1, G_2$的特征函数. 于是由情形2, $f_1, f_2$都满足
+    (i)到(iii). 所以对所有$x\in\R^p, f(x, y)$作为$y\in\R^q$的函数非负可积, 且
+    $$ F(x) = \int_{\R^q}f(x, y)dy = \int_{\R^q}f_2(x, y)dy - \int_{\R^q}f_1(x, y)dy $$
+    在$\R^p$上非负可积. 此时对$f$来说\ref{iterate}成立. 
+    \vspace{1cm}
+    \par 情形4: $E$是零测集. 此时有$\R^p\times\R^q$中单减开集列$\{ G_k \}_{k\geq 1}$, 使$E\subset G_k$, 且
+    $m(G_k)\rightarrow 0$. 令$H = \bigcap_{k=1}^\infty G_k$, 则$E\subset H$, 且$m(H) = 0$. 令$f_k(x, y)$表示$G_k$
+    的特征函数, 则由控制收敛定理\ref{control}及情形2得. 
+    \begin{align*}
+        0& = \int_{\R^p\times\R^q}\mathcal{X}_H(x, y)dxdy \stackrel{(1)}{=} \lim_{k\to\infty}\int_{\R^p\times\R^q}f_k(x, y)dxdy  \\
+         & \stackrel{(2)}{=} \lim_{k\to\infty}\int_{\R^p}\left[\int_{\R^q}f_k(x, y)dy\right]dx \stackrel{(3)}{=} 
+         \int_{\R^p}\left[ \lim_{k\to\infty}\int_{\R^q} f_k(x, y)dy \right]dx \\
+         & \stackrel{(4)}{=} \int_{\R^p}\left[ \int_{\R^q} \lim_{k\to\infty}f_k(x, y)dy \right]dx = 
+         \int_{\R^p}\left[ \int_{\R^q} \mathcal{X}_H(x, y)dy \right]dx
+    \end{align*}
+    \par (1): 由$\mathcal{X}_H(x, y) = \lim_{k\to\infty}f_k(x, y)$且$f_k(x, y)\leq f_1(x, y)$, 由情形2, $f_1(x, y)\in L^1(\R^p\times\R^q)$,
+    由控制收敛定理\ref{control}得积分和极限号交换. 
+    \par (2): 由情形2, $f_k(x, y)$满足定理(i)到(iii), 可累次积分.
+    \par (3): 同(1), $F(x) = \int_{\R^q}f_k(x, y)dy\leq \int_{\R^q}f_1(x, y)dy = F_1(x)$, 
+    且由情形2知, $F_1(x)\in L^1(\R^p)$, 由控制收敛定理可交换极限和积分号. 
+    \par (4): $f_k(x, y)\leq f_1(x, y)$, 且$f_1(x, y)\in L^1(\R^q)$, 同理交换极限与积分号. 
+    \par 由此得对几乎所有$x\in\R^p$有$\int_{\R^q} \mathcal{X}_H(x, y)dy = 0$, 从而对几乎所有$x\in\R^p$, $\mathcal{X}_H(x, y)$
+    作为$y\in\R^q$的函数几乎处处为0. 但$$ 0\leq f(x, y)= \mathcal{X}_E(x, y)\leq \mathcal{X}_H(x, y)$$
+    因此对几乎所有的$x\in\R^p, f(x, y)$作为$y\in\R^q$的函数几乎处处为0. 因此对几乎所有的$x\in\R^p$, 有
+    $$ F(x) = \int_{\R^q}f(x, y)dy = 0 $$
+    显然\ref{iterate}成立. 
+    \vspace{1cm}
+    \par 情形5: $E$是一般可测集. 此时$E = \left( \bigcup_{k = 1}^\infty F_k \right) \cup Z$, $\{F_k\}_{k\geq1}$
+    是单增有界闭集列, $Z$是零测集, 且$F_k\cap Z = \emptyset(k\geq 1)$. 分别用$f_0, f_k$表示$Z, F_k(k\geq1)$的特征函数, 
+    则$$ f(x, y) = \mathcal{X}_E(x, y) = \lim_{k\to\infty}f_k(x, y)+f_0(x, y) $$
+    由情形3和情形4知, 所有$f_k(k\geq0)$满足(i)到(iii). 故$f$亦如此. 
+    \par 至此我们证明了$\R^p\times\R^q$中任何可测集$E$上的特征函数$f$满足(i)到(iii). 从而易知任何非负简单函数和
+    任何非负可测函数都满足(i)到(iii). 
+\end{proof}
+
+\begin{thm}[Fubini]\label{Fubini}
+    设$f(x, y)$在$\R^p\times\R^q$上可积, 则:
+    \item (i) 对几乎所有的$x\in \R^p, f(x, y)$作为$y\in\R^q$的函数在$\R^q$上可积.
+    \item (ii) $F(x) = \int_{\R^q}f(x, y)dy$在$x\in \R^p$上可积.
+    \item (iii) \begin{equation}
+                    \int_{\R^p\times\R^q}f(x, y)dxdy = \int_{\R^p}\left[\int_{\R^q}f(x, y)dy\right]dx
+                \end{equation}
+\end{thm}
+
+\begin{proof}
+    令$f = f_+ - f_-$, 则$f_+, f_-$都是$\R^p\times\R^q$上的非负可积函数. 于是利用 Tonelli定理\ref{Tonelli}即得. 
+\end{proof}
+
+\begin{corollary}
+    设$f(x, y)$在$\R^p\times\R^q$上可积, 则
+    $$ \int_{\R^p}\left[\int_{\R^q}f(x, y)dy\right]dx = \int_{\R^p\times\R^q}f(x, y)dxdy =  \int_{\R^q}\left[\int_{\R^p}f(x, y)dx\right]dy$$
+\end{corollary}
+
+
+\begin{lemma}
+    若$f(x)$是$\R^n$上的可测函数, 则$f(x-y)$是$(x, y)\in\R^n\times\R^n$上的可测函数. 
+\end{lemma}
+
+\begin{proof}
+    对任意实数$\alpha, E = \{ f(z)>\alpha \}$是$\R^n$中的可测集. 现在
+    $$ \{ (x, y)\in\R^n\times\R^n:f(x - y)>\alpha \} = \{ (x, y)\in\R^n\times\R^n:x-y\in E \} $$
+    上式右端是$\R^n\times\R^n$中的可测集. 从而左端亦是, 则$f(x-y)$是$\R^n\times\R^n$上的可测函数. 
+\end{proof}
+
+\begin{defn}
+    设$f, g$是$\R^n$上的可测函数, 若对几乎所有$x\in\R^n$, 积分$\int_{\R^n} f(x-y)g(y)dy$存在, 则该积分作为的$x$的函数称为$f, g$的\textbf{\emph{卷积}}, 记为$f*g$. 
+\end{defn}
+
+
+\begin{thm}
+    若$f, g\in L^1(\R^n)$, 则$(f*g)(x)$对几乎所有$x\in\R^n$有意义且是$\R^n$上的可积函数. 此外
+    $$ \int_{\R^n}|(f*g)(x)|dx \leq \int_{\R^n}|f(x)|dx \cdot \int_{\R^n}|g(x)|dx $$
+\end{thm}
+
+
+\begin{proof}
+    设$f, g$都非负, 此时由定理\ref{jzj}知, $f(x-y)g(y)$是$\R^n\times\R^n$上的非负可测函数. 故由 Tonelli定理\ref{Tonelli}, 
+    \begin{align*}
+        \int_{\R^n}dx\int_{\R^n}f(x-y)g(y)dy& = \int_{\R^n}dy\int_{\R^n}f(x-y)g(y)dx  \\
+        =\int_{\R^n}g(y)dy\int_{\R^n}f(x-y)dx& = \int_{\R^n}g(y)dy \cdot \int_{\R^n}f(x)dx < \infty
+    \end{align*}
+    这说明$(f*g)(x)$几乎处处存在有限. 
+    \par 对一般情形, 只需注意$|(f*g)(x)|\leq (|f|*|g|)(x)$. 从而
+    $$ \int_{\R^n}|(f*g)(x)|dx \leq \int_{\R^n}(|f|*|g|)(x)dx = \int_{\R^n}|f(x)|dx \cdot \int_{\R^n}|g(x)|dx < \infty$$
+\end{proof}
+
+
+\begin{thm}
+    设$f$为可测集$E\subset \R^n$上的可测函数. 对每一$\lambda > 0$, 令
+    \begin{equation}\label{distribute function}
+        g(\lambda) = m(\{ x\in E: |f(x)| > \lambda \})
+    \end{equation}
+    则当$1\leq p <\infty$时, $$\int_{E} |f(x)|^p dx = p \int_{0}^\infty \lambda^{p-1}g(\lambda) d\lambda $$
+\end{thm}
+
+
+\begin{proof}
+    令$$ F(\lambda x) = \left\{ \begin{array}{ll}1, & |f(x)| > \lambda, \\0, & |f(x)| \leq \lambda. \end{array}\right. $$
+    当固定$\lambda > 0$时, $F(\lambda, x)$作为$x$的函数是式\ref{distribute function}右端可测集的特征函数. 此时由 Tonelli定理\ref{Tonelli}, 
+    \begin{align*}
+        \int_{E} |f(x)|^p dx& = \int_{E}dx\int_{0}^{|f(x)|} p\lambda^{p-1} d\lambda\\
+                            & = \int_{E}dx\int_{0}^{\infty} p\lambda^{p-1}F(\lambda, x) d\lambda\\
+                            & = \int_{0}^{\infty} p\lambda^{p-1} d\lambda\int_{E}F(\lambda, x)dx \\
+                            & = p \int_{0}^\infty \lambda^{p-1}g(\lambda) d\lambda
+    \end{align*}
+    式\ref{distribute function}中的函数$g(\lambda)$称为$f$的\textbf{\emph{分布函数}}. 
+\end{proof}
+
+
+%  ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 正文部分 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+\ifx\allfiles\undefined
+\end{document}
+\fi
