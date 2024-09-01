@@ -1,0 +1,9 @@
+Solarize_Light2     偏黄
+bmh                 灰背景
+ggplot              整体偏灰
+dark_background     黑背景
+seaborn-v0_8        蓝灰色,较好看
+
+seaborn-v0_8-ticks      背景无色无网格
+seaborn-v0_8-whitegrid  背景无色有网格
+seaborn-v0_8-dark-palette  背景有色无网格
