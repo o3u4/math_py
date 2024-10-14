@@ -1,5 +1,9 @@
 from matplotlib import pyplot as plt
 
+plt.style.use('seaborn-v0_8-whitegrid')
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
+
 
 def plot_line(x, y, ax=None, line_color='#509caf',
               line_label=None, linewidth=2, linestyle='-'):
