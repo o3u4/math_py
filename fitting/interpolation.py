@@ -25,7 +25,7 @@ class Interpolation:
                 s += self.y_lst[i] * self.base_func(i)(x_)
             return s
 
-        return Lagrange_fit_function
+        return np.vectorize(Lagrange_fit_function)
 
     @staticmethod
     def diff_div(f1, f2, x1, x2):
@@ -46,7 +46,7 @@ class Interpolation:
                 p += coe[i] * np.prod([(x_ - factor) for factor in self.x_lst[:i]])
             return p
 
-        return newton_fit_function, A
+        return np.vectorize(newton_fit_function)
 
     def two_order_fit(self, x_):  # 分段二阶插值(取三点)
         n = len(self.x_lst)
@@ -72,15 +72,15 @@ class Interpolation:
                                  ax=None, line_color='#509caf',
                                  line_label=None, linewidth=2, linestyle='-'):
         fit_func = self.Lagrange_fit()
-        fit_y = np.array([fit_func(i) for i in x_range])
+        fit_y = fit_func(x_range)
         plot_line(x_range, fit_y, line_color=line_color, ax=ax, line_label=line_label,
                   linestyle=linestyle, linewidth=linewidth)
 
     def plot_newton_linear_fit_result(self, x_range,
                                   ax=None, line_color='#509caf',
                                   line_label=None, linewidth=2, linestyle='-'):
-        fit_func = self.newton_linear()[0]
-        fit_y = np.array([fit_func(i) for i in x_range])
+        fit_func = self.newton_linear()
+        fit_y = fit_func(x_range)
         plot_line(x_range, fit_y, line_color=line_color, ax=ax, line_label=line_label,
                   linestyle=linestyle, linewidth=linewidth)
 
