@@ -35,14 +35,16 @@ def admm_qp(A, q, B, b, C, d, beta=1.0, max_iter=100, tol=1e-4):
     """
     # 初始化变量
     n = A.shape[0]
+    m = b.shape[0]
+    l = d.shape[0]
     x = np.zeros(n)
-    y = np.zeros(b.shape[0] + d.shape[0])  # y的维度为b和d的维度之和
-    lambda_ = np.zeros(B.shape[0] + C.shape[0])
-
+    y = np.zeros(l)
+    lambda_ = np.zeros(m + l)
     # 迭代过程
     for k in range(max_iter):
         # 计算z
-        z = np.concatenate((b, d)) - np.dot(np.vstack([B, C]), x) - lambda_ / beta
+        zero_m = np.zeros(m)
+        z = np.concatenate((b, d)) - np.concatenate((zero_m, y)) - lambda_ / beta
 
         # 更新x
         A_hat = A + beta * (np.dot(np.vstack([B, C]).T, np.vstack([B, C])))
@@ -50,11 +52,13 @@ def admm_qp(A, q, B, b, C, d, beta=1.0, max_iter=100, tol=1e-4):
         x_new = np.linalg.solve(A_hat, b_hat)
 
         # 更新y
-        P = np.concatenate((b, d)) - lambda_ / beta
-        y_new = np.maximum(P, 0)  # 在非负部分上投影
+        P2 = d - (lambda_ / beta)[m:,]
+        y_new = np.maximum(P2, 0)  # 在非负部分上投影
+        y = y_new
 
         # 更新lambda
-        lambda_ = lambda_ + beta * (np.dot(np.vstack([B, C]), x_new) + y_new - np.concatenate((b, d)))
+        lambda_ = lambda_ + beta * (np.dot(np.vstack([B, C]), x_new) +
+                                    np.concatenate((zero_m, y_new)) - np.concatenate((b, d)))
 
         # 检查收敛
         if np.linalg.norm(x_new - x) < tol:
@@ -63,7 +67,6 @@ def admm_qp(A, q, B, b, C, d, beta=1.0, max_iter=100, tol=1e-4):
 
     # 计算最优目标函数值
     optimal_value = 0.5 * np.dot(x.T, np.dot(A, x)) + np.dot(q, x)
-
     return x, optimal_value
 
 
