@@ -14,7 +14,7 @@ class LSM:
         最小二乘 y = a0 * f0(x) + a1 * f1(x) + ... + an * fn(x)
         :param func: 拟合函数列表
         :param w: 是否对每个点加权重
-        :return:[a0, a1,..., an]
+        :return:[a0, a1,..., an], error
         """
         m = len(self.x_real)
         n = len(func)
@@ -32,17 +32,19 @@ class LSM:
         A_bar = A.T @ w @ A
         y_bar = A.T @ w @ self.y_real
         x = np.linalg.solve(A_bar, y_bar)
-        return x
+        E = self.y_real.T @ w @ self.y_real - self.y_real.T @ w @ A @ x
+        return x, E
 
     def plot_fit(self, func, w=None, ax=None, line_color='#509caf',
               line_label=None, linestyle='-'):
-        x = self.lsm(func, w)
+        x, err = self.lsm(func, w)
         x_min, x_max = np.min(self.x_real), np.max(self.x_real)
         x_plot = np.linspace(x_min, x_max, 100)
         fit_data = np.array([f(x_plot) for f in func])
         fit_data = x @ fit_data
         plot_line(x_plot, fit_data, line_color=line_color, ax=ax,
                   line_label=line_label, linestyle=linestyle)
+        print(err)
 
     @staticmethod
     def polynomial(n):
@@ -55,7 +57,7 @@ class LSM:
 if __name__ == '__main__':
     error = np.random.normal(loc=0, scale=1, size=200)
     x = np.linspace(1, 9, 200)
-    y = 2 + x + 2 * x ** 2 + error
+    y = 2 + x + 2 * (x - 4) ** 3 + 10 * error
     lsm = LSM(x, y)
     poly2 = lsm.polynomial(2)
     # x_ = lsm.lsm(poly2)
