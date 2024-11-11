@@ -19,7 +19,6 @@ class Integral:
         区间数值积分
         :param a: 区间
         :param b: 区间
-        :param f: 积分函数
         :param n: 等分次数, 1, 2, 3,... 对应 梯形求积, Simpson求积, Cotes求积
         :return: 积分值
         """
@@ -33,9 +32,8 @@ class Integral:
         复合求积法(先对区间分段, 每段使用Cotes积分)
         :param a:
         :param b:
-        :param f: 积分函数
         :param d: 将大区间分成d段
-        :param n: 每个小区间等分次数
+        :param n: 每个小区间等分次数, 1, 2, 3,... 对应 梯形求积, Simpson求积, Cotes求积
         :return:
         """
         interval_point = np.linspace(a, b, d + 1)
@@ -52,8 +50,7 @@ class Integral:
         :param eps: 精度
         :param a:
         :param b:
-        :param f: 积分函数
-        :param n: 等分次数
+        :param n: 等分次数, 1, 2, 3,... 对应 梯形求积, Simpson求积, Cotes求积
         :return: 积分值, 分割段数, 误差
         """
         m = (2 * n) ** 2 - 1  # 系数
@@ -67,8 +64,34 @@ class Integral:
             s1 = sd
         return s1, d, delta
 
-    def integral(self, a, b, n, eps):  # 默认函数简化函数名
-        answer = self.auto_step_integral(a, b, n, eps)
+    def romberg(self, a, b, eps, m=5):
+        """
+        Romberg求积
+        :param a:
+        :param b:
+        :param eps:
+        :param m: 加速次数, 矩阵阶数
+        :return:
+        """
+        matrix = np.zeros((m + 1, m + 1), dtype=np.float64)
+        matrix[0, 0] = self.complex_integral(a, b, 1, 1)
+
+        for i in range(1, m + 1):
+            matrix[i, 0] = self.complex_integral(a, b, 2 ** i, 1)
+            s = matrix[i, 0]
+            if abs(s - matrix[i - 1, 0]) <= eps:    # 第一列前后比较
+                # print(matrix)
+                return s
+            for j in range(1, i + 1):
+                matrix[i, j] = (4 ** j * matrix[i, j - 1] - matrix[i - 1, j - 1]) / (4 ** j - 1)
+            s = matrix[i, i]    # 对角线
+            if abs(s - matrix[i, i - 1]) <= eps:    # 对角线相邻比较
+                # print(matrix)
+                return s
+        print("未达到精度")
+
+    def integral(self, a, b, eps):  # 默认函数简化函数名
+        answer = self.romberg(a, b, eps)
         return answer
 
 
@@ -78,5 +101,5 @@ if __name__ == '__main__':
 
 
     Itg = Integral(func)
-    [s, divide, error] = Itg.integral(0, 1, 2, 1e-05)
-    print(f"积分值: {s}, 分段数: {divide}, 误差: {error}")
+    ans = Itg.integral(0, 1, 1e-06)
+    print(ans)
