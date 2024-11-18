@@ -1,4 +1,6 @@
 from matplotlib import pyplot as plt
+from mpl_toolkits.axes_grid1.inset_locator import mark_inset
+
 
 plt.style.use('seaborn-v0_8-whitegrid')
 plt.rcParams['font.sans-serif'] = ['SimHei']
@@ -158,3 +160,26 @@ def add_text(x, y, ax=None, text="text", color='black', ha='center',
     ax.text(x, y, text, color=color, ha=ha, va=va, fontsize=fontsize,
             fontweight=fontweight, rotation=rotation)
     return fig, ax
+
+
+def axes_smaller(ax, loc, map_loc1, map_loc2, line_color='grey',
+                 line_width=1.5, linestyle="--"):
+    """
+    局部放大图
+    :param ax: 原始 ax
+    :param loc: 小图所在位置及大小
+    (0.1, 0.1, 0.2, 0.2) 表示在大图比例(0.1, 0.1)的地方为左下角, 长高分别为大图的(0.2, 0.2)
+    :param map_loc1: 小图与大图连接线的第一个方位点
+    :param map_loc2: 小图与大图连接线的第二个方位点
+    # 1 (右上) 2 (左上) 3(左下) 4(右下) 大图小图对应点分别对应相连
+    :param line_color: 连接线颜色
+    :param line_width: 连接线宽度
+    :param linestyle: 连接线样式
+    :return: 小图的ax
+    """
+    ax_in = ax.inset_axes(loc)
+    # 连接大小图
+    mark_inset(ax, ax_in, loc1=map_loc1, loc2=map_loc2,
+               fc="none", ec=line_color, lw=line_width, linestyle=linestyle)
+    return ax_in
+
