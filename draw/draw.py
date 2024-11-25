@@ -3,9 +3,18 @@ from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 
 
 plt.style.use('seaborn-v0_8-whitegrid')
-plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['font.sans-serif'] = ['KaiTi']
 plt.rcParams['axes.unicode_minus'] = False
-
+# 字体设置:
+# 宋体 (SimSun)
+# 黑体 (SimHei)
+# 微软雅黑 (Microsoft YaHei)
+# 楷体 (KaiTi)
+# 仿宋 (FangSong)
+# 隶书 (LiSu)
+# 华文细黑 (STXihei)
+# 华文楷体 (STKaiti)
+# 华文宋体 (STSong)
 
 def plot_line(x, y, ax=None, line_color='#509caf',
               line_label=None, linewidth=2, linestyle='-'):
