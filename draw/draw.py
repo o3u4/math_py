@@ -1,10 +1,11 @@
 from matplotlib import pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 
-
 plt.style.use('seaborn-v0_8-whitegrid')
 plt.rcParams['font.sans-serif'] = ['KaiTi']
 plt.rcParams['axes.unicode_minus'] = False
+
+
 # 字体设置:
 # 宋体 (SimSun)
 # 黑体 (SimHei)
@@ -192,3 +193,50 @@ def axes_smaller(ax, loc, map_loc1, map_loc2, line_color='grey',
                fc="none", ec=line_color, lw=line_width, linestyle=linestyle)
     return ax_in
 
+
+def period_envelope_func_by_data(t, data1, data2, poly_order1, poly_order2,
+                                 period=1, init_phase=0, ax=None):
+    """
+    根据数据点画出震荡周期函数
+    :param t:
+    :param data1: 下包络数据
+    :param data2: 上包络数据
+    :param poly_order1: 下数据多项式拟合次数
+    :param poly_order2: 上数据多项式拟合次数
+    :param period: 震荡周期
+    :param init_phase: 初相位
+    :param ax:
+    :return:
+    """
+    from fitting.LSM import LSM
+    import numpy as np
+    from fitting.func import period_envelope_func
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(10, 6))
+    else:
+        fig = ax.figure
+    data1 = np.array(data1)
+    data2 = np.array(data2)
+    lsm1 = LSM(t, data1)
+    lsm2 = LSM(t, data2)
+    polys1 = LSM.polynomial(poly_order1)
+    polys2 = LSM.polynomial(poly_order1)
+    a1 = lsm1.lsm(polys1)[0]
+    a2 = lsm2.lsm(polys2)[0]
+
+    def f1(t):
+        s = 0
+        for i in range(poly_order1 + 1):
+            s += a1[i] * polys1[i](t)
+        return s
+
+    def f2(t):
+        s = 0
+        for i in range(poly_order2 + 1):
+            s += a2[i] * polys2[i](t)
+        return s
+
+    x = np.linspace(t[0], t[-1], 200)
+    y = period_envelope_func(x, f1, f2, period, init_phase)
+    plot_line(x, y, ax=ax)
+    return fig, ax
